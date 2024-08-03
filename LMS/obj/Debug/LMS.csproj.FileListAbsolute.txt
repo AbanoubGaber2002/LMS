@@ -1,0 +1,12 @@
+D:\projectsC#\LMS\LMS\bin\Debug\LMS.exe.config
+D:\projectsC#\LMS\LMS\bin\Debug\LMS.exe
+D:\projectsC#\LMS\LMS\bin\Debug\LMS.pdb
+D:\projectsC#\LMS\LMS\bin\Debug\EntityFramework.dll
+D:\projectsC#\LMS\LMS\bin\Debug\EntityFramework.SqlServer.dll
+D:\projectsC#\LMS\LMS\bin\Debug\EntityFramework.xml
+D:\projectsC#\LMS\LMS\bin\Debug\EntityFramework.SqlServer.xml
+D:\projectsC#\LMS\LMS\obj\Debug\LMS.csproj.AssemblyReference.cache
+D:\projectsC#\LMS\LMS\obj\Debug\LMS.csproj.CoreCompileInputs.cache
+D:\projectsC#\LMS\LMS\obj\Debug\LMS.csproj.Up2Date
+D:\projectsC#\LMS\LMS\obj\Debug\LMS.exe
+D:\projectsC#\LMS\LMS\obj\Debug\LMS.pdb

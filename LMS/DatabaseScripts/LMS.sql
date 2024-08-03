@@ -1,0 +1,91 @@
+CREATE DATABASE LMS;
+GO
+
+USE LMS;
+GO
+
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(256) NOT NULL,
+    Role NVARCHAR(20) NOT NULL, -- e.g., 'Student', 'Instructor', 'Admin'
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE()
+);
+GO
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY IDENTITY(1,1),
+    CourseName NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(1000),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE()
+);
+GO
+CREATE TABLE Enrollments (
+    EnrollmentID INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT NOT NULL,
+    CourseID INT NOT NULL,
+    EnrollmentDate DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+GO
+CREATE TABLE Lessons (
+    LessonID INT PRIMARY KEY IDENTITY(1,1),
+    CourseID INT NOT NULL,
+    Title NVARCHAR(100) NOT NULL,
+    Content NVARCHAR(MAX),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+GO
+CREATE TABLE Assignments (
+    AssignmentID INT PRIMARY KEY IDENTITY(1,1),
+    CourseID INT NOT NULL,
+    Title NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX),
+    DueDate DATETIME,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+GO
+
+CREATE TABLE Submissions (
+    SubmissionID INT PRIMARY KEY IDENTITY(1,1),
+    AssignmentID INT NOT NULL,
+    UserID INT NOT NULL,
+    SubmissionDate DATETIME DEFAULT GETDATE(),
+    Content NVARCHAR(MAX),
+    Grade DECIMAL(5,2),
+    FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+GO
+CREATE TABLE Quizzes (
+    QuizID INT PRIMARY KEY IDENTITY(1,1),
+    CourseID INT NOT NULL,
+    QuizTitle NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(1000),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+GO
+CREATE TABLE QuizResults (
+    QuizResultID INT PRIMARY KEY IDENTITY(1,1),
+    QuizID INT NOT NULL,
+    UserID INT NOT NULL,
+    Score DECIMAL(5,2) NOT NULL,
+    TakenAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+GO
+
+
+
+

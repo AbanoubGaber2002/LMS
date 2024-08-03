@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Assignments">
+    <Key>
+      <PropertyRef Name="AssignmentID" />
+    </Key>
+    <Property Name="AssignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="DueDate" Type="datetime" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Courses">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Enrollments">
+    <Key>
+      <PropertyRef Name="EnrollmentID" />
+    </Key>
+    <Property Name="EnrollmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="EnrollmentDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="QuizResults">
+    <Key>
+      <PropertyRef Name="QuizResultID" />
+    </Key>
+    <Property Name="QuizResultID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuizID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="Score" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="TakenAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Quizzes">
+    <Key>
+      <PropertyRef Name="QuizID" />
+    </Key>
+    <Property Name="QuizID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="QuizTitle" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Submissions">
+    <Key>
+      <PropertyRef Name="SubmissionID" />
+    </Key>
+    <Property Name="SubmissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AssignmentID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="SubmissionDate" Type="datetime" />
+    <Property Name="Content" Type="nvarchar(max)" />
+    <Property Name="Grade" Type="decimal" Precision="5" Scale="2" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="UpdatedAt" Type="datetime" />
+  </EntityType>
+  <Association Name="FK__Assignmen__Cours__46E78A0C">
+    <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+    <End Role="Assignments" Type="Self.Assignments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="Assignments">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Enrollmen__Cours__4222D4EF">
+    <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+    <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="Enrollments">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Enrollmen__UserI__412EB0B6">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Enrollments" Type="Self.Enrollments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Enrollments">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuizResul__QuizI__5EBF139D">
+    <End Role="Quizzes" Type="Self.Quizzes" Multiplicity="1" />
+    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quizzes">
+        <PropertyRef Name="QuizID" />
+      </Principal>
+      <Dependent Role="QuizResults">
+        <PropertyRef Name="QuizID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__QuizResul__UserI__5FB337D6">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="QuizResults" Type="Self.QuizResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="QuizResults">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Quizzes__CourseI__5AEE82B9">
+    <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
+    <End Role="Quizzes" Type="Self.Quizzes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="Quizzes">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Submissio__Assig__4AB81AF0">
+    <End Role="Assignments" Type="Self.Assignments" Multiplicity="1" />
+    <End Role="Submissions" Type="Self.Submissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Assignments">
+        <PropertyRef Name="AssignmentID" />
+      </Principal>
+      <Dependent Role="Submissions">
+        <PropertyRef Name="AssignmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Submissio__UserI__4BAC3F29">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="Submissions" Type="Self.Submissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Submissions">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LMSModelStoreContainer">
+    <EntitySet Name="Assignments" EntityType="Self.Assignments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Enrollments" EntityType="Self.Enrollments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuizResults" EntityType="Self.QuizResults" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quizzes" EntityType="Self.Quizzes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Submissions" EntityType="Self.Submissions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Assignmen__Cours__46E78A0C" Association="Self.FK__Assignmen__Cours__46E78A0C">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="Assignments" EntitySet="Assignments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Enrollmen__Cours__4222D4EF" Association="Self.FK__Enrollmen__Cours__4222D4EF">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="Enrollments" EntitySet="Enrollments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Enrollmen__UserI__412EB0B6" Association="Self.FK__Enrollmen__UserI__412EB0B6">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Enrollments" EntitySet="Enrollments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuizResul__QuizI__5EBF139D" Association="Self.FK__QuizResul__QuizI__5EBF139D">
+      <End Role="Quizzes" EntitySet="Quizzes" />
+      <End Role="QuizResults" EntitySet="QuizResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK__QuizResul__UserI__5FB337D6" Association="Self.FK__QuizResul__UserI__5FB337D6">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="QuizResults" EntitySet="QuizResults" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Quizzes__CourseI__5AEE82B9" Association="Self.FK__Quizzes__CourseI__5AEE82B9">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="Quizzes" EntitySet="Quizzes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Submissio__Assig__4AB81AF0" Association="Self.FK__Submissio__Assig__4AB81AF0">
+      <End Role="Assignments" EntitySet="Assignments" />
+      <End Role="Submissions" EntitySet="Submissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Submissio__UserI__4BAC3F29" Association="Self.FK__Submissio__UserI__4BAC3F29">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Submissions" EntitySet="Submissions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
